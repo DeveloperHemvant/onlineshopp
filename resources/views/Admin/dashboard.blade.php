@@ -53,7 +53,7 @@
                     </li>
                     <li>
                         <a href="form.html">
-                            <i class="far fa-check-square"></i>Forms</a>
+                            <i class="far fa-check-square"></i>Show Sub Categories</a>
                     </li>
                     <li>
                         <a href="calendar.html">
@@ -151,8 +151,8 @@
                             <i class="fas fa-table"></i>Add Sub-Category</a>
                     </li>
                     <li>
-                        <a href="form.html">
-                            <i class="far fa-check-square"></i>Forms</a>
+                        <a href="{{url('admin/show_sub_category')}}">
+                            <i class="far fa-check-square"></i>Show Sub-Category</a>
                     </li>
                     <li>
                         <a href="calendar.html">
