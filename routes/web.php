@@ -29,6 +29,8 @@ Route::group(['middleware'=>'admin_auth'],function(){
     Route::get('admin/show_category',[CategoryController::class,'category_show']);
     Route::get('admin/category/delete/{id}',[CategoryController::class,'destroy']);
     Route::get('admin/category/update/{id}',[CategoryController::class,'edit']);
+    Route::get('admin/sub_category',[CategoryController::class,'sub_category']);
+
 
     Route::get('admin/logout',[AdminController::class,'logout']);
 

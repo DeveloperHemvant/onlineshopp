@@ -38,14 +38,30 @@ class CategoryController extends Controller
             'category_name' => 'required|string|max:255',
             'category_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
-       $filename=time().'.'.$request->category_photo->extension();
        
-       $request->category_photo->move('public/category_images',$filename);
-        DB::table('categorys')->insert([
-            'cat_name'=>$request->category_name,
-            'cat_photo'=>$filename,
-        ]);
-        return back();
+        if (empty($request->category_name)) {
+            return response()->json(['message' => 'Category name cannot be empty'], 400);
+        }
+        if (empty($request->category_photo)) {
+            return response()->json(['message' => 'Category photo cannot be empty'], 400);
+        }
+       
+
+         // Check if the category already exists in the database
+        $existingCategory = DB::table('categorys')->where('cat_name', $request->category_name)->first();
+        if ($existingCategory) {
+        // Category already exists, return an error response or handle it as needed
+        return response()->json(['message' => 'Category already exists'], 400);
+        }
+        $filename=time().'.'.$request->category_photo->extension();
+       
+        $request->category_photo->move('public/category_images',$filename);
+            DB::table('categorys')->insert([
+                'cat_name'=>$request->category_name,
+                'cat_photo'=>$filename,
+            ]);
+            return response()->json(['message' => 'Category added successfully']);
+        // return back();
     }
 
     /**
@@ -82,11 +98,17 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {   
-        $pic= DB::table('categorys')->where('id',$id)->find('cat_photo');
-        return $pic;
-        // $image_path= public_path("public/category_images".$pic);
-        // File::delete($image_path);
-        // DB::table('categorys')->where('id',$id)->delete();
-        // return back();
+        
+        $pic= DB::table('categorys')->where('id',$id)->value('cat_photo');
+       // return $pic;
+       DB::table('categorys')->where('id',$id)->delete();
+        
+       $image_path= public_path("/public/category_images/") .$pic;
+       
+       $filePath= File::delete($image_path);
+        return back();
+    }
+    public function sub_category(){
+        return view('Admin.sub_category');
     }
 }

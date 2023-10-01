@@ -1,4 +1,5 @@
 @extends('Admin/layout')
+@section('dashboard')
 <div class="page-wrapper">
     <!-- HEADER MOBILE-->
     <header class="header-mobile d-block d-lg-none">
@@ -146,8 +147,8 @@
                             <i class="fas fa-chart-bar"></i>Show Category</a>
                     </li>
                     <li>
-                        <a href="table.html">
-                            <i class="fas fa-table"></i>Tables</a>
+                        <a href="{{url('admin/sub_category')}}">
+                            <i class="fas fa-table"></i>Add Sub-Category</a>
                     </li>
                     <li>
                         <a href="form.html">
@@ -288,3 +289,4 @@
     </div>
 
 </div>
+@endsection('dashboard')

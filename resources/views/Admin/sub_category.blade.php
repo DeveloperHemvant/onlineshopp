@@ -5,9 +5,8 @@
     <div class="card-header">
         <strong>Add Category</strong> 
     </div>
-    <div id="responseMessage"></div>
     <div class="card-body card-block">
-        <form id="category" action="#"  class="form-horizontal" enctype="multipart/form-data" onsubmit="category_ajax('category')" >
+        <form action="{{url('admin/sub_category_add')}}" method="post" class="form-horizontal" enctype="multipart/form-data">
             @csrf
             <div class="row form-group">
                 <div class="col col-md-3">

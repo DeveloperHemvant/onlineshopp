@@ -26,7 +26,7 @@
     <link href="{{asset('AdminAssets/vendor/slick/slick.css')}}" rel="stylesheet" media="all">
     <link href="{{asset('AdminAssets/vendor/select2/select2.min.css')}}" rel="stylesheet" media="all">
     <link href="{{asset('AdminAssets/vendor/perfect-scrollbar/perfect-scrollbar.css')}}" rel="stylesheet" media="all">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Title Page-->
     <title>Login</title>
 
@@ -42,6 +42,7 @@
 </head>
 
 <body >
+    @yield('dashboard')
    
 
     
@@ -67,6 +68,8 @@
 
     <!-- Main JS-->
     <script src="{{asset('AdminAssets/js/main.js')}}"></script>
+    <script src="{{asset('AdminAssets/js/adminajax.js')}}"></script>
+
 
 </body>
 
