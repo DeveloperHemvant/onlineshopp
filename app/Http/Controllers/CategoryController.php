@@ -96,21 +96,20 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {   
+        $categoryPhotoPath = public_path("/public/category_images/") . DB::table('categorys')->where('id', $id)->value('cat_photo');
         
-        $pic= DB::table('categorys')->where('id',$id)->value('cat_photo');
-       // return $pic;
-       DB::table('categorys')->where('id',$id)->delete();
+        $subCategories = DB::table('sub_categories')->where('cat_id', $id)->get();
         
-       $image_path= public_path("/public/category_images/") .$pic;
-       
-      $filePath= File::delete($image_path);
-       $sub_cat_photo= DB::table('sub_categories')->where('cat_id',$id)->value('sub_cat_photo');
-      
-        $sub_cat_pic=public_path("/public/sub_category_images/").$sub_cat_photo;
+        foreach ($subCategories as $subCategory) {
+            $subCatPhotoPath = public_path("/public/sub_category_images/") . $subCategory->sub_cat_photo;
+            File::delete($subCatPhotoPath);
+        }
+        DB::table('categorys')->where('id', $id)->delete();
+        File::delete($categoryPhotoPath);
         
-        $subfile=File::delete($sub_cat_pic);
         return back();
     }
+    
     public function sub_category(){
         $category=DB::table('categorys')->get();
         return view('Admin.sub_category',['category'=>$category]);
@@ -124,8 +123,7 @@ class CategoryController extends Controller
         ]);
        
         $filename=$request->sub_category_name.'.'.$request->sub_category_photo->extension();
-        //dd($request->all(), $request->file('sub_category_photo'));
-       // return $filename;
+        
         $request->sub_category_photo->move('public/sub_category_images',$filename);
            $sub= DB::table('sub_categories')->insert([
                 'cat_id'=>$request->category_name,

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\VendorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,4 +40,4 @@ Route::group(['middleware'=>'admin_auth'],function(){
 
 });
 
-
+Route::get('vendor/registration',[VendorController::class,'index']);

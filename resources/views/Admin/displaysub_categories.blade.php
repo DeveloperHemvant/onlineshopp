@@ -14,6 +14,7 @@
                         <img class="rounded-circle mx-auto d-block" src="{{asset('public/sub_category_images/'.$item->sub_cat_photo)}}" alt="{{$item->sub_cat_photo}}">
                         <h5 class="text-sm-center mt-2 mb-1">{{$item->sub_cat_name}}</h5>
                         
+                    </div>
                     <hr>
                     <div class="card-text text-sm-center">
                         <a href="{{url('admin/category/delete/'.$item->id)}}" class="btn btn-danger mr-700 mr-5">Delete</a>
