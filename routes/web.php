@@ -39,5 +39,7 @@ Route::group(['middleware'=>'admin_auth'],function(){
     Route::get('admin/logout',[AdminController::class,'logout']);
 
 });
-
-Route::get('vendor/registration',[VendorController::class,'index']);
+///routes for vendor 
+Route::get('/vendor/registration', function () {
+    return view('vendor.vendor_register');
+});
