@@ -43,3 +43,9 @@ Route::group(['middleware'=>'admin_auth'],function(){
 Route::get('/vendor/registration', function () {
     return view('vendor.vendor_register');
 });
+
+Auth::routes([
+    'verify'=>true
+]);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

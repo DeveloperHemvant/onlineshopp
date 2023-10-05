@@ -18,6 +18,8 @@ use App\Http\Controllers\Vendorapi\VendorController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Auth::routes([
+    'verify'=>true
+]);
 Route::post('/vendorregister',[VendorController::class,'store']);
 
