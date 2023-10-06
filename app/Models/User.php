@@ -29,7 +29,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'pincode',
         'country',
         'shop',
-        'status'
+        'status',
+        'verification_link'
     ];
 
     /**

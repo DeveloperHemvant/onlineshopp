@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Vendorapi;
+use App\Mail\UserVerificationMail;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Controllers\Controller;
@@ -41,7 +42,22 @@ class VendorController extends Controller
         'shop'=>'required',
         'password'=>'required',
        ]);
-      
+       function generateRandomString($length) {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $randomString;
+    }
+    $randomstring = generateRandomString(10);
+    
+       $MailData=[
+        'title'=>'Mail from Online Shop',
+        'body'=>'This Verification Mail',
+        'button' => '<button><a href="{{ url("verifyemail/" . $randomstring) }}">Click To Verify Email</a></button>'
+
+       ];
        if ($validator->fails()) {
         return response()->json(['error'=>$validator->errors()],201);
        }else{
@@ -57,9 +73,10 @@ class VendorController extends Controller
             'state' => $request->input('state'),
             'pincode' => $request->input('postal'),
             'country' => $request->input('country'),
-            'password' => Hash::make($request->input('password')),                  
+            'password' => Hash::make($request->input('password')),
+            'verification_link'=>$randomstring                  
         ]);
-         $user->sendEmailVerificationNotification();
+         $user->sendEmailVerificationNotification($request->email);
 
        
        
