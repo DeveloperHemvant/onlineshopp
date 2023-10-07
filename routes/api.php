@@ -22,4 +22,5 @@ Auth::routes([
     'verify'=>true
 ]);
 Route::post('/vendorregister',[VendorController::class,'store']);
+Route::get('/verifyemail/{token}',[VendorController::class,'verifyemail']);
 

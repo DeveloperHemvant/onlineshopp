@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Controllers\Vendorapi;
 use App\Mail\UserVerificationMail;
-use Illuminate\Auth\Events\Verified;
+// use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\Mail;
+use DB;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -11,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
+use Illuminate\Support\Facades\Session;
 class VendorController extends Controller
 {
     
@@ -20,9 +22,18 @@ class VendorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function verifyemail($token)
     {
-      //
+         $tokenFromURL =$token;
+        $users = DB::table('users')
+        ->where('id', '=', $tokenFromURL)->get();
+        if($users){
+             DB::table('users')
+              ->where('id', $tokenFromURL)
+              ->update(['email_verified_at' => now()]);
+              return redirect(url('/'));
+        }
+
     }
 
     /**
@@ -42,22 +53,7 @@ class VendorController extends Controller
         'shop'=>'required',
         'password'=>'required',
        ]);
-       function generateRandomString($length) {
-        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, strlen($characters) - 1)];
-        }
-        return $randomString;
-    }
-    $randomstring = generateRandomString(10);
-    
-       $MailData=[
-        'title'=>'Mail from Online Shop',
-        'body'=>'This Verification Mail',
-        'button' => '<button><a href="{{ url("verifyemail/" . $randomstring) }}">Click To Verify Email</a></button>'
-
-       ];
+   
        if ($validator->fails()) {
         return response()->json(['error'=>$validator->errors()],201);
        }else{
@@ -74,10 +70,18 @@ class VendorController extends Controller
             'pincode' => $request->input('postal'),
             'country' => $request->input('country'),
             'password' => Hash::make($request->input('password')),
-            'verification_link'=>$randomstring                  
+            'created_at'=>now(),
+            'updated_at'=>now()                             
         ]);
-         $user->sendEmailVerificationNotification($request->email);
-
+       
+        $userId = $user->id;
+        $MailData = [
+            'title' => 'Mail from Online Shop',
+            'body' => 'This is Verification Mail',
+            'button' => $userId
+        ];
+       
+       Mail::to($request->input('email'))->send(new UserVerificationMail($MailData));
        
        
         return response()->json(['message'=>'Registration Success'],200);
@@ -85,18 +89,6 @@ class VendorController extends Controller
       
     }
 
-    /**
-     * Display the specified resource.
-     */
- 
-
-    /**
-     * Update the specified resource in storage.
-     */
-    
-
-    /**
-     * Remove the specified resource from storage.
-     */
   
 }
+

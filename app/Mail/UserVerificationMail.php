@@ -19,7 +19,7 @@ class UserVerificationMail extends Mailable
      */
     public function __construct($MailData)
     {
-        $this->maildata=$MailData;
+        $this->MailData=$MailData;
     }
 
     /**
@@ -38,7 +38,7 @@ class UserVerificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.VerificationEmail',
+            view: 'VerificationEmail',
         );
     }
 

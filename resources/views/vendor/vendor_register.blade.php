@@ -1,8 +1,12 @@
 @extends('Admin/layout')
 @section('dashboard')
-
+<h4>
+    @if (!empty($data))
+        <p>{{ $data }}</p>
+    @endif
+</h4>
 <div class="card-body card-block">
-    <form action="" method="post">
+    <form action="{{url('api/vendorregister')}}" method="post" >
         @csrf
     <div class="form-group">
         <label for="company" class=" form-control-label">Name</label>
