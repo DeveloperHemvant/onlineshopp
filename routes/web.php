@@ -43,6 +43,9 @@ Route::group(['middleware'=>'admin_auth'],function(){
 Route::get('/vendor/registration', function () {
     return view('vendor.vendor_register');
 });
+Route::get('/vendor/login', function () {
+    return view('vendor.login');
+});
 
 Auth::routes([
     'verify'=>true
