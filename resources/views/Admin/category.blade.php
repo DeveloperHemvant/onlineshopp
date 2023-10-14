@@ -14,7 +14,7 @@
                     <label for="hf-email" class=" form-control-label">Category Name</label>
                 </div>
                 <div class="col-12 col-md-9">
-                    <input type="text" id="category_name" name="category_name" placeholder="Enter Category Name..." class="form-control">
+                    <input type="text" id="category_name" name="category_name" value={{$_SESSION['role']}} placeholder="Enter Category Name..." class="form-control">
                     @error('category_name')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror

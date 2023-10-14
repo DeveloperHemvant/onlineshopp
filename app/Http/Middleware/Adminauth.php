@@ -15,9 +15,9 @@ class Adminauth
      */
     public function handle(Request $request, Closure $next): Response
     {
-       
+        
        if($request->session()->has('admin_login')){
-
+            
           return $next($request);
     }else{
         $request->session()->flash('error','Please login');

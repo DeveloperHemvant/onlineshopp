@@ -10,6 +10,7 @@ use File;
 class CategoryController extends Controller
 {
     public function category(){
+        session_start();
         return view('Admin.category');  
     }
     /**

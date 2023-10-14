@@ -15,6 +15,7 @@ class AdminController extends Controller
       // return $result[0]->id;
         if(isset($result[0]->id)){
             session(['admin_login' => true, 'admin_id' => $result[0]->id]);
+            
             return redirect('admin/dashboard');
         }else{
             $request->session()->flash('error','Please enter valid details to login');
